@@ -33,6 +33,11 @@ cd $TEMP
 git apply $cur/redis.patch
 cd $cur
 
+# add us3 patch
+cd $TEMP/registry/storage/driver/s3-aws
+wget -O s3.go https://raw.githubusercontent.com/lambertxiao/distribution/v2.8.0-us3-patch/registry/storage/driver/s3-aws/s3.go
+cd $cur
+
 echo 'build the registry binary ...'
 cp Dockerfile.binary $TEMP
 docker build -f $TEMP/Dockerfile.binary -t registry-golang $TEMP
