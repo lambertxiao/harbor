@@ -20,8 +20,8 @@ cur=$PWD
 
 # the temp folder to store distribution source code...
 TEMP=`mktemp -d ${TMPDIR-/tmp}/distribution.XXXXXX`
-# git clone -b $VERSION https://github.com/distribution/distribution.git $TEMP
-git clone -b us3-driver-dev https://github.com/lambertxiao/distribution.git $TEMP
+git clone -b $VERSION https://github.com/distribution/distribution.git $TEMP
+# git clone -b us3-driver-dev https://github.com/lambertxiao/distribution.git $TEMP
 
 # add patch 2815
 echo 'add patch https://github.com/distribution/distribution/pull/2815 ...'
@@ -35,9 +35,10 @@ git apply $cur/redis.patch
 cd $cur
 
 # add us3 patch
-# cd $TEMP/registry/storage/driver
-# wget -R -O us3 https://xxxxxxx
-# cd $cur
+mkdir $TEMP/registry/storage/driver/us3
+cd $TEMP/registry/storage/driver/us3
+wget -O us3.go https://raw.githubusercontent.com/lambertxiao/distribution/us3-driver-dev/registry/storage/driver/us3/us3.go
+cd $cur
 
 echo 'build the registry binary ...'
 cp Dockerfile.binary $TEMP
