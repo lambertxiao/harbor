@@ -20,7 +20,8 @@ cur=$PWD
 
 # the temp folder to store distribution source code...
 TEMP=`mktemp -d ${TMPDIR-/tmp}/distribution.XXXXXX`
-git clone -b $VERSION https://github.com/distribution/distribution.git $TEMP
+# git clone -b $VERSION https://github.com/distribution/distribution.git $TEMP
+git clone -b us3-driver-dev https://github.com/lambertxiao/distribution.git $TEMP
 
 # add patch 2815
 echo 'add patch https://github.com/distribution/distribution/pull/2815 ...'
