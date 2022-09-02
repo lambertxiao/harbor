@@ -20,28 +20,41 @@ cur=$PWD
 
 # the temp folder to store distribution source code...
 TEMP=`mktemp -d ${TMPDIR-/tmp}/distribution.XXXXXX`
-git clone -b $VERSION https://github.com/distribution/distribution.git $TEMP
+# git clone -b $VERSION https://github.com/distribution/distribution.git $TEMP
 # git clone -b us3-driver-dev https://github.com/lambertxiao/distribution.git $TEMP
+echo ">>>> version "$VERSION
+cp -r /home/ubuntu/distribution $TEMP
 
-# add patch 2815
-echo 'add patch https://github.com/distribution/distribution/pull/2815 ...'
-cd $TEMP
-wget https://github.com/distribution/distribution/pull/2815.patch
-git apply 2815.patch
+# # add patch 2815
+# echo 'add patch https://github.com/distribution/distribution/pull/2815 ...'
+# cd $TEMP
+# wget https://github.com/distribution/distribution/pull/2815.patch
+# git apply 2815.patch
 
-# add patch redis
-cd $TEMP
-git apply $cur/redis.patch
-cd $cur
+# # add patch redis
+# cd $TEMP
+# git apply $cur/redis.patch
+# cd $cur
 
-# add us3 patch
-mkdir $TEMP/registry/storage/driver/us3
-cd $TEMP/registry/storage/driver/us3
-wget -O us3.go https://raw.githubusercontent.com/lambertxiao/distribution/us3-driver-dev/registry/storage/driver/us3/us3.go
-cd $cur
+# # add us3 patch
+# mkdir $TEMP/registry/storage/driver/us3
+# cd $TEMP/registry/storage/driver/us3
+# echo ">>>> pwd is "$PWD
+# wget -O us3.go https://raw.githubusercontent.com/lambertxiao/distribution/us3-driver-dev/registry/storage/driver/us3/us3.go
+# echo ">>>> us3.go is below: "
+# echo $(head -n 20 $TEMP/registry/storage/driver/us3/us3.go)
+# cd $cur
+
+# # fix distribution's main
+# cd $TEMP/cmd/registry
+# wget -O main.go https://raw.githubusercontent.com/lambertxiao/distribution/us3-driver-dev/cmd/registry/main.go
+# echo ">>>> new main.go is below: "
+# echo $(head -n 24 $TEMP/cmd/registry/main.go)
+# cd $cur
 
 echo 'build the registry binary ...'
 cp Dockerfile.binary $TEMP
+echo ">>>> pwd is "
 docker build -f $TEMP/Dockerfile.binary -t registry-golang $TEMP
 
 echo 'copy the registry binary to local...'
